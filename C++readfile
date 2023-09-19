@@ -1,0 +1,49 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <sstream>
+
+bool is_number(const std::string& s) {
+    // Check if the string is a number
+    return !s.empty() && s.find_first_not_of("0123456789") == std::string::npos;
+}
+
+class FileReader {
+public:
+    FileReader(std::string filename) {
+        file_.open(filename);
+        if (!file_.is_open()) {
+            std::cout << "Error opening file " << filename << std::endl;
+        }
+    }
+
+    ~FileReader() {
+        file_.close();
+    }
+
+    void read() {
+        std::string line;
+        while (std::getline(file_, line)) {
+            std::stringstream ss(line);
+            std::string word;
+            while (ss >> word) {
+                if (is_number(word)) {
+                    std::cout << word << " is a number" << std::endl;
+                } else {
+                    std::cout << word << " is a string" << std::endl;
+                }
+            }
+        }
+    }
+
+private:
+    std::ifstream file_;
+
+};
+
+int main() {
+    std::string filename = "example.txt";
+    FileReader reader(filename);
+    reader.read();
+    return 0;
+}
