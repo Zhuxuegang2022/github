@@ -1,0 +1,2 @@
+add test.txt to learn remove files
+it work in the vs code
